@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/characters', function (Request $request) {
+    $characters = DB::table('characters')->get();
+    return response()->json($characters);
+});
+Route::get('/characters/{id}', function (Request $request, $id) {
+    return "/characters//".$id;
 });
