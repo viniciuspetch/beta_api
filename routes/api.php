@@ -372,29 +372,113 @@ Route::delete('/series/{id}', function ($id) {
 
 // Comics
 Route::get('/comics', function (Request $request) {
-    $comics = DB::table('comics')->get();
+    $comics = DB::table('comics')
+        ->get();
     foreach ($comics as $comic) {
-        $comic->stories = DB::table('stories')->where("stories.comic_id", $comic->id)->get();
+        $comic->stories = DB::table('stories')
+            ->where("stories.comic_id", $comic->id)
+            ->get();
     }
     return response()->json($comics);
 });
 Route::get('/comics/{id}', function (Request $request, $id) {
-    $comic = DB::table('comics')->where('id', $id)->first();
-    $comic->stories = DB::table('stories')->where("stories.comic_id", $comic->id)->get();
-    return response()->json($comic);
+    $comic = DB::table('comics')
+        ->where('id', $id)
+        ->first();
+    if ($comic) {
+        $comic->stories = DB::table('stories')
+            ->where("stories.comic_id", $comic->id)
+            ->get();
+        return response()->json($comic);
+    } else {
+        return response()->json([], 404);
+    }
 });
 Route::get('/comics/{id}/stories', function (Request $request, $id) {
-    $stories = DB::table('stories')->where("stories.comic_id", $id)->get();
-    return response()->json($stories);
+    $comic = DB::table('comics')
+        ->where('id', $id)
+        ->first();
+    if ($comic) {
+        $stories = DB::table('stories')
+            ->where("stories.comic_id", $id)
+            ->get();
+        return response()->json($stories);
+    } else {
+        return response()->json([], 404);
+    }
 });
-
+Route::post('/comics', function (Request $request) {
+    if (isset($request->name)) {
+        DB::table('comics')
+            ->insert(["name" => $request->name, 'series_id' => $request->series_id, "created_at" => now(), "updated_at" => now()]);
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 400);
+    }
+});
+Route::put('/comics/{id}', function (Request $request, $id) {
+    if (isset($request->name) && isset($request->series_id)) {
+        DB::table('comics')
+            ->where("id", $id)
+            ->update(["name" => $request->name, "series_id" => $request->series_id, 'updated_at' => now()]);
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 404);
+    }
+});
+Route::delete('/comics/{id}', function ($id) {
+    $comic = DB::table("comics")
+        ->where('id', $id);
+    if ($comic->first()) {
+        $comic->delete();
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 404);
+    }
+});
 
 // Stories
 Route::get('/stories', function (Request $request) {
-    $stories = DB::table('stories')->get();
+    $stories = DB::table('stories')
+        ->get();
     return response()->json($stories);
 });
 Route::get('/stories/{id}', function (Request $request, $id) {
-    $stories = DB::table('stories')->where('id', $id)->first();
-    return response()->json($stories);
+    $stories = DB::table('stories')
+        ->where('id', $id)
+        ->first();
+    if ($stories) {
+        return response()->json($stories);
+    } else {
+        return response()->json([], 404);
+    }
+});
+Route::post('/stories', function (Request $request) {
+    if (isset($request->name)) {
+        DB::table('stories')
+            ->insert(["name" => $request->name, 'comic_id' => $request->comic_id, "created_at" => now(), "updated_at" => now()]);
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 400);
+    }
+});
+Route::put('/stories/{id}', function (Request $request, $id) {
+    if (isset($request->name) && isset($request->comic_id)) {
+        DB::table('stories')
+            ->where("id", $id)
+            ->update(["name" => $request->name, 'comic_id' => $request->comic_id, 'updated_at' => now()]);
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 404);
+    }
+});
+Route::delete('/stories/{id}', function ($id) {
+    $story = DB::table("stories")
+        ->where('id', $id);
+    if ($story->first()) {
+        $story->delete();
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 404);
+    }
 });
