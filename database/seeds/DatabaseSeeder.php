@@ -18,6 +18,10 @@ class DatabaseSeeder extends Seeder
             SeriesSeeder::class,
             ComicSeeder::class,
             StorySeeder::class,
+            CharacterCreatorSeed::class,
+            CharacterStorySeed::class,
+            CreatorStorySeed::class,
+            EventStorySeed::class,
         ]);
     }
 }
