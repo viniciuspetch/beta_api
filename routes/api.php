@@ -237,6 +237,14 @@ Route::get('/creators/{id}', function (Request $request, $id) {
         return response()->json([], 404);
     }
 });
+Route::post('/creators', function (Request $request) {
+    if (isset($request->name)) {
+        DB::table('creators')->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 400);
+    }
+});
 
 
 // Events
