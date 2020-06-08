@@ -99,11 +99,19 @@ Route::get('/events/{id}', function (Request $request, $id) {
 // Series
 Route::get('/series', function (Request $request) {
     $series = DB::table('series')->get();
+    foreach ($series as $sr) {
+        $sr->comics = DB::table("comics")->where("comics.series_id", $sr->id)->get();
+    }
     return response()->json($series);
 });
 Route::get('/series/{id}', function (Request $request, $id) {
     $series = DB::table('series')->where('id', $id)->first();
-    return response()->json($series);
+    if ($series) {
+        $series->comics = DB::table("comics")->where("comics.series_id", $id)->get();
+        return response()->json($series);
+    } else {
+        return response()->json([], 404);
+    }
 });
 
 
