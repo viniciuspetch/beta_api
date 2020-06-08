@@ -184,7 +184,7 @@ Route::get('/characters/{id}/events', function ($id) {
 });
 Route::post('/characters', function (Request $request) {
     if (isset($request->name)) {
-        DB::table('characters')->insert(["name" => $request->name]);
+        DB::table('characters')->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
         return response()->json([], 200);
     } else {
         return response()->json([], 400);
@@ -192,7 +192,7 @@ Route::post('/characters', function (Request $request) {
 });
 Route::put('/characters/{id}', function (Request $request, $id) {
     if (isset($request->name)) {
-        DB::table('characters')->where("id", $id)->update(["name" => $request->name]);
+        DB::table('characters')->where("id", $id)->update(["name" => $request->name, 'updated_at' => now()]);
         return response()->json([], 200);
     } else {
         return response()->json([], 404);
