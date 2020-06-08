@@ -245,7 +245,23 @@ Route::post('/creators', function (Request $request) {
         return response()->json([], 400);
     }
 });
-
+Route::put('/creators/{id}', function (Request $request, $id) {
+    if (isset($request->name)) {
+        DB::table('creators')->where("id", $id)->update(["name" => $request->name, 'updated_at' => now()]);
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 404);
+    }
+});
+Route::delete('/creators/{id}', function (Request $request, $id) {
+    $creator = DB::table("creators")->where('id', $id);
+    if ($creator->first()) {
+        DB::table('creators')->where('id', $id)->delete();
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 404);
+    }
+});
 
 // Events
 Route::get('/events', function (Request $request) {
