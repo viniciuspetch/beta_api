@@ -33,15 +33,15 @@ Route::get('/characters', function (Request $request) {
 Route::get('/characters/{id}', function (Request $request, $id) {
     $character = DB::table('characters')
         ->where('id', $id)->first();
-    $character->creators = DB::table("character_creator")
-        ->where('character_id', $id)
-        ->join('creators', 'character_creator.creator_id', '=', 'creators.id')
-        ->select(['creators.id as id', 'name'])->get();
-    $character->stories = DB::table("character_story")
-        ->where('character_id', $id)
-        ->join('stories', 'character_story.story_id', '=', 'stories.id')
-        ->select(['stories.id as id', 'name'])->get();
     if ($character) {
+        $character->creators = DB::table("character_creator")
+            ->where('character_id', $id)
+            ->join('creators', 'character_creator.creator_id', '=', 'creators.id')
+            ->select(['creators.id as id', 'name'])->get();
+        $character->stories = DB::table("character_story")
+            ->where('character_id', $id)
+            ->join('stories', 'character_story.story_id', '=', 'stories.id')
+            ->select(['stories.id as id', 'name'])->get();
         return response()->json($character);
     } else {
         return response()->json([], 404);
