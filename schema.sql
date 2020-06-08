@@ -27,7 +27,7 @@ CREATE TABLE `comics` (
 CREATE TABLE `stories` (
   `id` int PRIMARY KEY,
   `name` varchar(255) NOT NULL,
-  `stories_id` int
+  `comic_id` int
 );
 
 CREATE TABLE `character_story` (
