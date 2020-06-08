@@ -22,11 +22,36 @@ Route::get('/characters', function (Request $request) {
         $character->creators = DB::table("character_creator")
             ->where('character_id', $character->id)
             ->join('creators', 'character_creator.creator_id', '=', 'creators.id')
-            ->select(['creators.id as id', 'name'])->get();
+            ->select(['creators.id as id', 'name'])
+            ->get();
         $character->stories = DB::table("character_story")
             ->where('character_id', $character->id)
             ->join('stories', 'character_story.story_id', '=', 'stories.id')
-            ->select(['stories.id as id', 'name'])->get();
+            ->select(['stories.id as id', 'name'])
+            ->get();
+        $character->comics = DB::table("character_story")
+            ->where('character_id', $character->id)
+            ->join('stories', 'character_story.story_id', '=', 'stories.id')
+            ->join('comics', 'stories.comic_id', '=', 'comics.id')
+            ->select(['comics.id as id', 'comics.name as name'])
+            ->groupBy('comics.id')
+            ->get();
+        $character->series = DB::table("character_story")
+            ->where('character_id', $character->id)
+            ->join('stories', 'character_story.story_id', '=', 'stories.id')
+            ->join('comics', 'stories.comic_id', '=', 'comics.id')
+            ->join('series', 'comics.series_id', '=', 'series.id')
+            ->select(['series.id as id', 'series.name as name'])
+            ->groupBy('series.id')
+            ->get();
+        $character->events = DB::table("character_story")
+            ->where('character_id', $character->id)
+            ->join('stories', 'character_story.story_id', '=', 'stories.id')
+            ->join('event_story', 'stories.id', '=', 'event_story.story_id')
+            ->join('events', 'event_story.event_id', '=', 'events.id')
+            ->select(['events.id as id', 'events.name as name'])
+            ->groupBy('events.id')
+            ->get();
     }
     return response()->json($characters);
 });
@@ -35,13 +60,38 @@ Route::get('/characters/{id}', function (Request $request, $id) {
         ->where('id', $id)->first();
     if ($character) {
         $character->creators = DB::table("character_creator")
-            ->where('character_id', $id)
+            ->where('character_id', $character->id)
             ->join('creators', 'character_creator.creator_id', '=', 'creators.id')
-            ->select(['creators.id as id', 'name'])->get();
+            ->select(['creators.id as id', 'name'])
+            ->get();
         $character->stories = DB::table("character_story")
-            ->where('character_id', $id)
+            ->where('character_id', $character->id)
             ->join('stories', 'character_story.story_id', '=', 'stories.id')
-            ->select(['stories.id as id', 'name'])->get();
+            ->select(['stories.id as id', 'name'])
+            ->get();
+        $character->comics = DB::table("character_story")
+            ->where('character_id', $character->id)
+            ->join('stories', 'character_story.story_id', '=', 'stories.id')
+            ->join('comics', 'stories.comic_id', '=', 'comics.id')
+            ->select(['comics.id as id', 'comics.name as name'])
+            ->groupBy('comics.id')
+            ->get();
+        $character->series = DB::table("character_story")
+            ->where('character_id', $character->id)
+            ->join('stories', 'character_story.story_id', '=', 'stories.id')
+            ->join('comics', 'stories.comic_id', '=', 'comics.id')
+            ->join('series', 'comics.series_id', '=', 'series.id')
+            ->select(['series.id as id', 'series.name as name'])
+            ->groupBy('series.id')
+            ->get();
+        $character->events = DB::table("character_story")
+            ->where('character_id', $character->id)
+            ->join('stories', 'character_story.story_id', '=', 'stories.id')
+            ->join('event_story', 'stories.id', '=', 'event_story.story_id')
+            ->join('events', 'event_story.event_id', '=', 'events.id')
+            ->select(['events.id as id', 'events.name as name'])
+            ->groupBy('events.id')
+            ->get();
         return response()->json($character);
     } else {
         return response()->json([], 404);
