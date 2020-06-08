@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 // Characters
 Route::get('/characters', function (Request $request) {
     $characters = DB::table('characters')
-    ->get();
+        ->get();
     foreach ($characters as $character) {
         $character->creators = DB::table("character_creator")
             ->where('character_id', $character->id)
@@ -211,12 +211,31 @@ Route::delete('/characters/{id}', function (Request $request, $id) {
 
 // Creators
 Route::get('/creators', function (Request $request) {
-    $creators = DB::table('creators')->get();
+    $creators = DB::table('creators')
+        ->get();
+    foreach ($creators as $creator) {
+        $creator->characters = DB::table('character_creator')
+            ->where('creator_id', $creator->id)
+            ->join('characters', 'character_creator.character_id', '=', 'characters.id')
+            ->select(['characters.id as id', 'name'])
+            ->get();
+    }
     return response()->json($creators);
 });
 Route::get('/creators/{id}', function (Request $request, $id) {
-    $creators = DB::table('creators')->where('id', $id)->first();
-    return response()->json($creators);
+    $creator = DB::table('creators')
+        ->where('id', $id)
+        ->first();
+    if ($creator) {
+        $creator->characters = DB::table('character_creator')
+            ->where('creator_id', $creator->id)
+            ->join('characters', 'character_creator.character_id', '=', 'characters.id')
+            ->select(['characters.id as id', 'name'])
+            ->get();
+        return response()->json($creator);
+    } else {
+        return response()->json([], 404);
+    }
 });
 
 
