@@ -239,7 +239,8 @@ Route::get('/creators/{id}', function (Request $request, $id) {
 });
 Route::post('/creators', function (Request $request) {
     if (isset($request->name)) {
-        DB::table('creators')->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
+        DB::table('creators')
+            ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
         return response()->json([], 200);
     } else {
         return response()->json([], 400);
@@ -247,14 +248,17 @@ Route::post('/creators', function (Request $request) {
 });
 Route::put('/creators/{id}', function (Request $request, $id) {
     if (isset($request->name)) {
-        DB::table('creators')->where("id", $id)->update(["name" => $request->name, 'updated_at' => now()]);
+        DB::table('creators')
+            ->where("id", $id)
+            ->update(["name" => $request->name, 'updated_at' => now()]);
         return response()->json([], 200);
     } else {
         return response()->json([], 404);
     }
 });
 Route::delete('/creators/{id}', function (Request $request, $id) {
-    $creator = DB::table("creators")->where('id', $id);
+    $creator = DB::table("creators")
+        ->where('id', $id);
     if ($creator->first()) {
         $creator->delete();
         return response()->json([], 200);
@@ -263,14 +267,51 @@ Route::delete('/creators/{id}', function (Request $request, $id) {
     }
 });
 
+
 // Events
 Route::get('/events', function (Request $request) {
-    $events = DB::table('events')->get();
+    $events = DB::table('events')
+        ->get();
     return response()->json($events);
 });
-Route::get('/events/{id}', function (Request $request, $id) {
-    $events = DB::table('events')->where('id', $id)->first();
-    return response()->json($events);
+Route::get('/events/{id}', function ($id) {
+    $event = DB::table('events')
+        ->where('id', $id)
+        ->first();
+    if ($event) {
+        return response()->json($event);
+    } else {
+        return response()->json([], 404);
+    }
+});
+Route::post('/events', function (Request $request) {
+    if (isset($request->name)) {
+        DB::table('events')
+            ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 400);
+    }
+});
+Route::put('/events/{id}', function (Request $request, $id) {
+    if (isset($request->name)) {
+        DB::table('events')
+            ->where("id", $id)
+            ->update(["name" => $request->name, 'updated_at' => now()]);
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 404);
+    }
+});
+Route::delete('/events/{id}', function ($id) {
+    $event = DB::table("events")
+        ->where('id', $id);
+    if ($event->first()) {
+        $event->delete();
+        return response()->json([], 200);
+    } else {
+        return response()->json([], 404);
+    }
 });
 
 
