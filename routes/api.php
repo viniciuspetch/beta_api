@@ -201,7 +201,7 @@ Route::put('/characters/{id}', function (Request $request, $id) {
 Route::delete('/characters/{id}', function (Request $request, $id) {
     $character = DB::table("characters")->where('id', $id);
     if ($character->first()) {
-        DB::table('characters')->where('id', $id)->delete();
+        $character->delete();
         return response()->json([], 200);
     } else {
         return response()->json([], 404);
@@ -256,7 +256,7 @@ Route::put('/creators/{id}', function (Request $request, $id) {
 Route::delete('/creators/{id}', function (Request $request, $id) {
     $creator = DB::table("creators")->where('id', $id);
     if ($creator->first()) {
-        DB::table('creators')->where('id', $id)->delete();
+        $creator->delete();
         return response()->json([], 200);
     } else {
         return response()->json([], 404);
