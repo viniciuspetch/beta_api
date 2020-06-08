@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\DB;
 // Characters
 Route::get('/characters', function (Request $request) {
     $characters = DB::table('characters')->get();
+    foreach ($characters as $character) {
+        $character->creators = DB::table("character_creator")->where('character_id', $character->id)->join('creators', 'character_creator.creator_id', '=', 'creators.id')->select(['creators.id as id', 'name'])->get();
+        $character->stories = DB::table("character_story")->where('character_id', $character->id)->join('stories', 'character_story.story_id', '=', 'stories.id')->select(['stories.id as id', 'name'])->get();
+    }
     return response()->json($characters);
 });
 Route::get('/characters/{id}', function (Request $request, $id) {
