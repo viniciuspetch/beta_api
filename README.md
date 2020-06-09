@@ -49,22 +49,18 @@
 | /api/stories                  | POST   | Yes   | Inserts a new story                                    |
 | /api/stories/{id}             | PUT    | Yes   | Edits the chosen story                                 |
 | /api/stories/{id}             | DELETE | Yes   | Deletes the chosen story                               |
-
 | /api/character_creator | GET | Yes | Returns all character-creator relationships |
 | /api/character_creator/{id} | GET | Yes | Returns the chosen character-creator relationship |
 | /api/character_creator | POST | Yes | Inserts a new character-creator relationship |
 | /api/character_creator/{id} | DELETE | Yes | Deletes the chosen character-creator relationship |
-
 | /api/character_story | GET | Yes | Returns all character-story relationships |
 | /api/character_story/{id} | GET | Yes | Returns the chosen character-story relationship |
 | /api/character_story | POST | Yes | Inserts a new character-story relationship |
 | /api/character_story/{id} | DELETE | Yes | Deletes the chosen character-story relationship |
-
 | /api/creator_story | GET | Yes | Returns all creator-story relationships |
 | /api/creator_story/{id} | GET | Yes | Returns the chosen creator-story relationship |
 | /api/creator_story | POST | Yes | Inserts a new creator-story relationship |
 | /api/creator_story/{id} | DELETE | Yes | Deletes the chosen creator-story relationship |
-
 | /api/event_story | GET | Yes | Returns all event-story relationships |
 | /api/event_story/{id} | GET | Yes | Returns the chosen event-story relationship |
 | /api/event_story | POST | Yes | Inserts a new event-story relationship |
