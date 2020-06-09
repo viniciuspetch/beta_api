@@ -15,7 +15,11 @@ class CreateCreatorsTable extends Migration
     {
         Schema::create('creators', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 128);
+            $table->string('first_name', 128);
+            $table->string('middle_name', 128);
+            $table->string('last_name', 128);
+            $table->string('full_name', 128);
+            $table->string('url', 128);
             $table->timestamps();
         });
     }

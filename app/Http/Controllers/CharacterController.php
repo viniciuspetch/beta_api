@@ -15,7 +15,7 @@ class CharacterController extends Controller
             $character->creators = DB::table("character_creator")
                 ->where('character_id', $character->id)
                 ->join('creators', 'character_creator.creator_id', '=', 'creators.id')
-                ->select(['creators.id as id', 'name'])
+                ->select(['creators.id as id', 'full_name'])
                 ->get();
             $character->stories = DB::table("character_story")
                 ->where('character_id', $character->id)
