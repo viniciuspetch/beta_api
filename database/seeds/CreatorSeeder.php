@@ -12,7 +12,7 @@ class CreatorSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Character::class, 15)->create()->each(function ($creator) {
+        factory(App\Creator::class, 15)->create()->each(function ($creator) {
             $creator->save();
         });
     }
