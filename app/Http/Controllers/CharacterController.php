@@ -189,9 +189,9 @@ class CharacterController extends Controller
 
     public function post(Request $request)
     {
-        if (isset($request->name)) {
+        if (isset($request->name) && isset($request->description) && isset($request->url)) {
             DB::table('characters')
-                ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
+                ->insert(["name" => $request->name, "description" => $request->description, "url" => $request->url, "created_at" => now(), "updated_at" => now()]);
             return response()->json([], 200);
         } else {
             return response()->json([], 400);
@@ -200,10 +200,10 @@ class CharacterController extends Controller
 
     public function put(Request $request, $id)
     {
-        if (isset($request->name)) {
+        if (isset($request->name) && isset($request->description) && isset($request->url)) {
             DB::table('characters')
                 ->where("id", $id)
-                ->update(["name" => $request->name, 'updated_at' => now()]);
+                ->update(["name" => $request->name, "description" => $request->description, "url" => $request->url, 'updated_at' => now()]);
             return response()->json([], 200);
         } else {
             return response()->json([], 404);
