@@ -349,3 +349,8 @@ Route::get('/creator_story', 'CreatorStoryController@getAll');
 Route::get('/creator_story/{id}', 'CreatorStoryController@getSingle');
 Route::post('/creator_story', 'CreatorStoryController@post');
 Route::delete('/creator_story/{id}', 'CreatorStoryController@delete');
+
+Route::get('/event_story', 'EventStoryController@getAll');
+Route::get('/event_story/{id}', 'EventStoryController@getSingle');
+Route::post('/event_story', 'EventStoryController@post');
+Route::delete('/event_story/{id}', 'EventStoryController@delete');
