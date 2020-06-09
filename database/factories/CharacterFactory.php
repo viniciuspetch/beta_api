@@ -7,6 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Character::class, function (Faker $faker) {
     return [
-        'name' => $faker->name
+        'name' => $faker->name,
+        'description' => $faker->paragraph,
+        'url' => $faker->url,
     ];
 });
