@@ -52,4 +52,5 @@ class CreatorStoryController extends Controller
         } else {
             return response()->json([], 404);
         }
-    }}
+    }
+}
