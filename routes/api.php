@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
+Route::get('/', function () {
+    return view('api');
+});
+
 Route::group([
     'prefix' => 'auth'
 ], function () {
