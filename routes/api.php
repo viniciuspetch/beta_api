@@ -71,59 +71,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
 // Series
-Route::get('/series', function () {
-    $series = DB::table('series')
-        ->get();
-    foreach ($series as $sr) {
-        $sr->comics = DB::table("comics")
-            ->where("comics.series_id", $sr->id)
-            ->get();
-    }
-    return response()->json($series);
-});
-Route::get('/series/{id}', function ($id) {
-    $series = DB::table('series')
-        ->where('id', $id)
-        ->first();
-    if ($series) {
-        $series->comics = DB::table("comics")
-            ->where("comics.series_id", $id)
-            ->get();
-        return response()->json($series);
-    } else {
-        return response()->json([], 404);
-    }
-});
+Route::get('/series', 'SeriesController@getAll');
+Route::get('/series/{id}',  'SeriesController@getSingle');
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('/series', function (Request $request) {
-        if (isset($request->name)) {
-            DB::table('series')
-                ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
-            return response()->json([], 200);
-        } else {
-            return response()->json([], 400);
-        }
-    });
-    Route::put('/series/{id}', function (Request $request, $id) {
-        if (isset($request->name)) {
-            DB::table('series')
-                ->where("id", $id)
-                ->update(["name" => $request->name, 'updated_at' => now()]);
-            return response()->json([], 200);
-        } else {
-            return response()->json([], 404);
-        }
-    });
-    Route::delete('/series/{id}', function ($id) {
-        $series = DB::table("series")
-            ->where('id', $id);
-        if ($series->first()) {
-            $series->delete();
-            return response()->json([], 200);
-        } else {
-            return response()->json([], 404);
-        }
-    });
+    Route::post('/series',  'SeriesController@post');
+    Route::put('/series/{id}',  'SeriesController@put');
+    Route::delete('/series/{id}',  'SeriesController@delete');
 });
 
 
