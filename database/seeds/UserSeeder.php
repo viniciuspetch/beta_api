@@ -15,12 +15,5 @@ class UserSeeder extends Seeder
         factory(App\User::class, 3)->create()->each(function ($user) {
             $user->save();
         });
-        $user = new App\User();
-        $user->name = "asd";
-        $user->email = "asd@asd.asd";
-        $user->email_verified_at = now();
-        $user->password = "asd";
-        $user->remember_token = Str::random(10);
-        $user->save();
     }
 }

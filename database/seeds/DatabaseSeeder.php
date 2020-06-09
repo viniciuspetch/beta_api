@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             CharacterStorySeed::class,
             CreatorStorySeed::class,
             EventStorySeed::class,
+            UserSeeder::class,
         ]);
     }
 }
