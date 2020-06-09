@@ -339,3 +339,8 @@ Route::get('/character_creator', 'CharacterCreatorController@getAll');
 Route::get('/character_creator/{id}', 'CharacterCreatorController@getSingle');
 Route::post('/character_creator', 'CharacterCreatorController@post');
 Route::delete('/character_creator/{id}', 'CharacterCreatorController@delete');
+
+Route::get('/character_story', 'CharacterStoryController@getAll');
+Route::get('/character_story/{id}', 'CharacterStoryController@getSingle');
+Route::post('/character_story', 'CharacterStoryController@post');
+Route::delete('/character_story/{id}', 'CharacterStoryController@delete');
