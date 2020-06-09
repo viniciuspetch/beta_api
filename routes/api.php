@@ -197,30 +197,32 @@ Route::get('/characters/{id}/events', function ($id) {
         return response()->json([], 404);
     }
 });
-Route::post('/characters', function (Request $request) {
-    if (isset($request->name)) {
-        DB::table('characters')->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 400);
-    }
-});
-Route::put('/characters/{id}', function (Request $request, $id) {
-    if (isset($request->name)) {
-        DB::table('characters')->where("id", $id)->update(["name" => $request->name, 'updated_at' => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
-});
-Route::delete('/characters/{id}', function (Request $request, $id) {
-    $character = DB::table("characters")->where('id', $id);
-    if ($character->first()) {
-        $character->delete();
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('/characters', function (Request $request) {
+        if (isset($request->name)) {
+            DB::table('characters')->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 400);
+        }
+    });
+    Route::put('/characters/{id}', function (Request $request, $id) {
+        if (isset($request->name)) {
+            DB::table('characters')->where("id", $id)->update(["name" => $request->name, 'updated_at' => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
+    Route::delete('/characters/{id}', function (Request $request, $id) {
+        $character = DB::table("characters")->where('id', $id);
+        if ($character->first()) {
+            $character->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
 });
 
 
@@ -252,34 +254,36 @@ Route::get('/creators/{id}', function (Request $request, $id) {
         return response()->json([], 404);
     }
 });
-Route::post('/creators', function (Request $request) {
-    if (isset($request->name)) {
-        DB::table('creators')
-            ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 400);
-    }
-});
-Route::put('/creators/{id}', function (Request $request, $id) {
-    if (isset($request->name)) {
-        DB::table('creators')
-            ->where("id", $id)
-            ->update(["name" => $request->name, 'updated_at' => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
-});
-Route::delete('/creators/{id}', function (Request $request, $id) {
-    $creator = DB::table("creators")
-        ->where('id', $id);
-    if ($creator->first()) {
-        $creator->delete();
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('/creators', function (Request $request) {
+        if (isset($request->name)) {
+            DB::table('creators')
+                ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 400);
+        }
+    });
+    Route::put('/creators/{id}', function (Request $request, $id) {
+        if (isset($request->name)) {
+            DB::table('creators')
+                ->where("id", $id)
+                ->update(["name" => $request->name, 'updated_at' => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
+    Route::delete('/creators/{id}', function (Request $request, $id) {
+        $creator = DB::table("creators")
+            ->where('id', $id);
+        if ($creator->first()) {
+            $creator->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
 });
 
 
@@ -299,34 +303,36 @@ Route::get('/events/{id}', function ($id) {
         return response()->json([], 404);
     }
 });
-Route::post('/events', function (Request $request) {
-    if (isset($request->name)) {
-        DB::table('events')
-            ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 400);
-    }
-});
-Route::put('/events/{id}', function (Request $request, $id) {
-    if (isset($request->name)) {
-        DB::table('events')
-            ->where("id", $id)
-            ->update(["name" => $request->name, 'updated_at' => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
-});
-Route::delete('/events/{id}', function ($id) {
-    $event = DB::table("events")
-        ->where('id', $id);
-    if ($event->first()) {
-        $event->delete();
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('/events', function (Request $request) {
+        if (isset($request->name)) {
+            DB::table('events')
+                ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 400);
+        }
+    });
+    Route::put('/events/{id}', function (Request $request, $id) {
+        if (isset($request->name)) {
+            DB::table('events')
+                ->where("id", $id)
+                ->update(["name" => $request->name, 'updated_at' => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
+    Route::delete('/events/{id}', function ($id) {
+        $event = DB::table("events")
+            ->where('id', $id);
+        if ($event->first()) {
+            $event->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
 });
 
 
@@ -354,34 +360,36 @@ Route::get('/series/{id}', function ($id) {
         return response()->json([], 404);
     }
 });
-Route::post('/series', function (Request $request) {
-    if (isset($request->name)) {
-        DB::table('series')
-            ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 400);
-    }
-});
-Route::put('/series/{id}', function (Request $request, $id) {
-    if (isset($request->name)) {
-        DB::table('series')
-            ->where("id", $id)
-            ->update(["name" => $request->name, 'updated_at' => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
-});
-Route::delete('/series/{id}', function ($id) {
-    $series = DB::table("series")
-        ->where('id', $id);
-    if ($series->first()) {
-        $series->delete();
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('/series', function (Request $request) {
+        if (isset($request->name)) {
+            DB::table('series')
+                ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 400);
+        }
+    });
+    Route::put('/series/{id}', function (Request $request, $id) {
+        if (isset($request->name)) {
+            DB::table('series')
+                ->where("id", $id)
+                ->update(["name" => $request->name, 'updated_at' => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
+    Route::delete('/series/{id}', function ($id) {
+        $series = DB::table("series")
+            ->where('id', $id);
+        if ($series->first()) {
+            $series->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
 });
 
 
@@ -422,35 +430,38 @@ Route::get('/comics/{id}/stories', function (Request $request, $id) {
         return response()->json([], 404);
     }
 });
-Route::post('/comics', function (Request $request) {
-    if (isset($request->name)) {
-        DB::table('comics')
-            ->insert(["name" => $request->name, 'series_id' => $request->series_id, "created_at" => now(), "updated_at" => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 400);
-    }
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('/comics', function (Request $request) {
+        if (isset($request->name)) {
+            DB::table('comics')
+                ->insert(["name" => $request->name, 'series_id' => $request->series_id, "created_at" => now(), "updated_at" => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 400);
+        }
+    });
+    Route::put('/comics/{id}', function (Request $request, $id) {
+        if (isset($request->name) && isset($request->series_id)) {
+            DB::table('comics')
+                ->where("id", $id)
+                ->update(["name" => $request->name, "series_id" => $request->series_id, 'updated_at' => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
+    Route::delete('/comics/{id}', function ($id) {
+        $comic = DB::table("comics")
+            ->where('id', $id);
+        if ($comic->first()) {
+            $comic->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
 });
-Route::put('/comics/{id}', function (Request $request, $id) {
-    if (isset($request->name) && isset($request->series_id)) {
-        DB::table('comics')
-            ->where("id", $id)
-            ->update(["name" => $request->name, "series_id" => $request->series_id, 'updated_at' => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
-});
-Route::delete('/comics/{id}', function ($id) {
-    $comic = DB::table("comics")
-        ->where('id', $id);
-    if ($comic->first()) {
-        $comic->delete();
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
-});
+
 
 // Stories
 Route::get('/stories', function (Request $request) {
@@ -468,32 +479,34 @@ Route::get('/stories/{id}', function (Request $request, $id) {
         return response()->json([], 404);
     }
 });
-Route::post('/stories', function (Request $request) {
-    if (isset($request->name)) {
-        DB::table('stories')
-            ->insert(["name" => $request->name, 'comic_id' => $request->comic_id, "created_at" => now(), "updated_at" => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 400);
-    }
-});
-Route::put('/stories/{id}', function (Request $request, $id) {
-    if (isset($request->name) && isset($request->comic_id)) {
-        DB::table('stories')
-            ->where("id", $id)
-            ->update(["name" => $request->name, 'comic_id' => $request->comic_id, 'updated_at' => now()]);
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
-});
-Route::delete('/stories/{id}', function ($id) {
-    $story = DB::table("stories")
-        ->where('id', $id);
-    if ($story->first()) {
-        $story->delete();
-        return response()->json([], 200);
-    } else {
-        return response()->json([], 404);
-    }
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('/stories', function (Request $request) {
+        if (isset($request->name)) {
+            DB::table('stories')
+                ->insert(["name" => $request->name, 'comic_id' => $request->comic_id, "created_at" => now(), "updated_at" => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 400);
+        }
+    });
+    Route::put('/stories/{id}', function (Request $request, $id) {
+        if (isset($request->name) && isset($request->comic_id)) {
+            DB::table('stories')
+                ->where("id", $id)
+                ->update(["name" => $request->name, 'comic_id' => $request->comic_id, 'updated_at' => now()]);
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
+    Route::delete('/stories/{id}', function ($id) {
+        $story = DB::table("stories")
+            ->where('id', $id);
+        if ($story->first()) {
+            $story->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([], 404);
+        }
+    });
 });
