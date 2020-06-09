@@ -100,22 +100,31 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::delete('/stories/{id}', 'StoryController@delete');
 });
 
-Route::get('/character_creator', 'CharacterCreatorController@getAll');
-Route::get('/character_creator/{id}', 'CharacterCreatorController@getSingle');
-Route::post('/character_creator', 'CharacterCreatorController@post');
-Route::delete('/character_creator/{id}', 'CharacterCreatorController@delete');
 
-Route::get('/character_story', 'CharacterStoryController@getAll');
-Route::get('/character_story/{id}', 'CharacterStoryController@getSingle');
-Route::post('/character_story', 'CharacterStoryController@post');
-Route::delete('/character_story/{id}', 'CharacterStoryController@delete');
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/character_creator', 'CharacterCreatorController@getAll');
+    Route::get('/character_creator/{id}', 'CharacterCreatorController@getSingle');
+    Route::post('/character_creator', 'CharacterCreatorController@post');
+    Route::delete('/character_creator/{id}', 'CharacterCreatorController@delete');
+});
 
-Route::get('/creator_story', 'CreatorStoryController@getAll');
-Route::get('/creator_story/{id}', 'CreatorStoryController@getSingle');
-Route::post('/creator_story', 'CreatorStoryController@post');
-Route::delete('/creator_story/{id}', 'CreatorStoryController@delete');
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/character_story', 'CharacterStoryController@getAll');
+    Route::get('/character_story/{id}', 'CharacterStoryController@getSingle');
+    Route::post('/character_story', 'CharacterStoryController@post');
+    Route::delete('/character_story/{id}', 'CharacterStoryController@delete');
+});
 
-Route::get('/event_story', 'EventStoryController@getAll');
-Route::get('/event_story/{id}', 'EventStoryController@getSingle');
-Route::post('/event_story', 'EventStoryController@post');
-Route::delete('/event_story/{id}', 'EventStoryController@delete');
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/creator_story', 'CreatorStoryController@getAll');
+    Route::get('/creator_story/{id}', 'CreatorStoryController@getSingle');
+    Route::post('/creator_story', 'CreatorStoryController@post');
+    Route::delete('/creator_story/{id}', 'CreatorStoryController@delete');
+});
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/event_story', 'EventStoryController@getAll');
+    Route::get('/event_story/{id}', 'EventStoryController@getSingle');
+    Route::post('/event_story', 'EventStoryController@post');
+    Route::delete('/event_story/{id}', 'EventStoryController@delete');
+});
