@@ -12,8 +12,8 @@ class CharacterSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('characters')->insert(['name' => "Character 1"]);
-        DB::table('characters')->insert(['name' => "Character 2"]);
-        DB::table('characters')->insert(['name' => "Character 3"]);
+        factory(App\Character::class, 5)->create()->each(function ($user) {
+            $user->save();
+        });
     }
 }
