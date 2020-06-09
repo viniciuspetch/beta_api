@@ -344,3 +344,8 @@ Route::get('/character_story', 'CharacterStoryController@getAll');
 Route::get('/character_story/{id}', 'CharacterStoryController@getSingle');
 Route::post('/character_story', 'CharacterStoryController@post');
 Route::delete('/character_story/{id}', 'CharacterStoryController@delete');
+
+Route::get('/creator_story', 'CreatorStoryController@getAll');
+Route::get('/creator_story/{id}', 'CreatorStoryController@getSingle');
+Route::post('/creator_story', 'CreatorStoryController@post');
+Route::delete('/creator_story/{id}', 'CreatorStoryController@delete');
