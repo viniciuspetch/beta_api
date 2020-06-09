@@ -61,51 +61,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
 // Events
-Route::get('/events', function (Request $request) {
-    $events = DB::table('events')
-        ->get();
-    return response()->json($events);
-});
-Route::get('/events/{id}', function ($id) {
-    $event = DB::table('events')
-        ->where('id', $id)
-        ->first();
-    if ($event) {
-        return response()->json($event);
-    } else {
-        return response()->json([], 404);
-    }
-});
+Route::get('/events', 'EventController@getAll');
+Route::get('/events/{id}', 'EventController@getSingle');
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('/events', function (Request $request) {
-        if (isset($request->name)) {
-            DB::table('events')
-                ->insert(["name" => $request->name, "created_at" => now(), "updated_at" => now()]);
-            return response()->json([], 200);
-        } else {
-            return response()->json([], 400);
-        }
-    });
-    Route::put('/events/{id}', function (Request $request, $id) {
-        if (isset($request->name)) {
-            DB::table('events')
-                ->where("id", $id)
-                ->update(["name" => $request->name, 'updated_at' => now()]);
-            return response()->json([], 200);
-        } else {
-            return response()->json([], 404);
-        }
-    });
-    Route::delete('/events/{id}', function ($id) {
-        $event = DB::table("events")
-            ->where('id', $id);
-        if ($event->first()) {
-            $event->delete();
-            return response()->json([], 200);
-        } else {
-            return response()->json([], 404);
-        }
-    });
+    Route::post('/events', 'EventController@post');
+    Route::put('/events/{id}', 'EventController@put');
+    Route::delete('/events/{id}', 'EventController@delete');
 });
 
 
