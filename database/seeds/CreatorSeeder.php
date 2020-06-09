@@ -12,8 +12,8 @@ class CreatorSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('creators')->insert(['name' => "Creator 1"]);
-        DB::table('creators')->insert(['name' => "Creator 2"]);
-        DB::table('creators')->insert(['name' => "Creator 3"]);
+        factory(App\Character::class, 15)->create()->each(function ($creator) {
+            $creator->save();
+        });
     }
 }
