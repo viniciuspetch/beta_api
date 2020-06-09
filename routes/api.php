@@ -72,81 +72,22 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 // Series
 Route::get('/series', 'SeriesController@getAll');
-Route::get('/series/{id}',  'SeriesController@getSingle');
+Route::get('/series/{id}', 'SeriesController@getSingle');
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('/series',  'SeriesController@post');
-    Route::put('/series/{id}',  'SeriesController@put');
-    Route::delete('/series/{id}',  'SeriesController@delete');
+    Route::post('/series', 'SeriesController@post');
+    Route::put('/series/{id}', 'SeriesController@put');
+    Route::delete('/series/{id}', 'SeriesController@delete');
 });
 
 
 // Comics
-Route::get('/comics', function (Request $request) {
-    $comics = DB::table('comics')
-        ->get();
-    foreach ($comics as $comic) {
-        $comic->stories = DB::table('stories')
-            ->where("stories.comic_id", $comic->id)
-            ->get();
-    }
-    return response()->json($comics);
-});
-Route::get('/comics/{id}', function (Request $request, $id) {
-    $comic = DB::table('comics')
-        ->where('id', $id)
-        ->first();
-    if ($comic) {
-        $comic->stories = DB::table('stories')
-            ->where("stories.comic_id", $comic->id)
-            ->get();
-        return response()->json($comic);
-    } else {
-        return response()->json([], 404);
-    }
-});
-Route::get('/comics/{id}/stories', function (Request $request, $id) {
-    $comic = DB::table('comics')
-        ->where('id', $id)
-        ->first();
-    if ($comic) {
-        $stories = DB::table('stories')
-            ->where("stories.comic_id", $id)
-            ->get();
-        return response()->json($stories);
-    } else {
-        return response()->json([], 404);
-    }
-});
+Route::get('/comics', 'ComicController@getAll');
+Route::get('/comics/{id}', 'ComicController@getSingle');
+Route::get('/comics/{id}/stories', 'ComicController@getStories');
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('/comics', function (Request $request) {
-        if (isset($request->name)) {
-            DB::table('comics')
-                ->insert(["name" => $request->name, 'series_id' => $request->series_id, "created_at" => now(), "updated_at" => now()]);
-            return response()->json([], 200);
-        } else {
-            return response()->json([], 400);
-        }
-    });
-    Route::put('/comics/{id}', function (Request $request, $id) {
-        if (isset($request->name) && isset($request->series_id)) {
-            DB::table('comics')
-                ->where("id", $id)
-                ->update(["name" => $request->name, "series_id" => $request->series_id, 'updated_at' => now()]);
-            return response()->json([], 200);
-        } else {
-            return response()->json([], 404);
-        }
-    });
-    Route::delete('/comics/{id}', function ($id) {
-        $comic = DB::table("comics")
-            ->where('id', $id);
-        if ($comic->first()) {
-            $comic->delete();
-            return response()->json([], 200);
-        } else {
-            return response()->json([], 404);
-        }
-    });
+    Route::post('/comics', 'ComicController@post');
+    Route::put('/comics/{id}', 'ComicController@put');
+    Route::delete('/comics/{id}', 'ComicController@delete');
 });
 
 
