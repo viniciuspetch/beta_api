@@ -1,5 +1,4 @@
 ## How to instal and run
-
 -   Configure the database on /config
 -   `php artisan migrate --seed` to apply migrations and seeds
 -   `php artisan passport:install` to add Passport keys
@@ -10,6 +9,7 @@
 ## API Endpoints
 | Route                         | Method | Auth? | Description                                            |
 | ----------------------------- | ------ | ----- | ------------------------------------------------------ |
+| /, /api              | GET   | No    | This documentation, but in HTML |
 | /api/auth/signup              | POST   | No    | User sign up. Fields: 'name', 'email', 'password', 'password_confirmation'                                           |
 | /api/auth/login               | POST   | No    | User login, returns Bearer token. Fields: 'email', 'password'                       |
 | /api/auth/logout              | GET    | **Yes**   | User logout                                            |
