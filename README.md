@@ -35,6 +35,7 @@
 | /api/events/{id}              | DELETE | **Yes**   | Deletes the chosen event                               |
 | /api/series                   | GET    | No    | Returns all series                                     |
 | /api/series/{id}              | GET    | No    | Returns the chosen series                              |
+| /api/series/{id}/comics      | GET    | **Yes**   | Returns the comics of the chosen series                |
 | /api/series                   | POST   | **Yes**   | Inserts a new series                                   |
 | /api/series/{id}              | PUT    | **Yes**   | Edits the chosen series                                |
 | /api/series/{id}              | DELETE | **Yes**   | Delete the chosen series                               |

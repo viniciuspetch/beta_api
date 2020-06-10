@@ -18,6 +18,7 @@ class SeriesController extends Controller
         }
         return response()->json($series);
     }
+
     public function getSingle($id)
     {
         $series = DB::table('series')
@@ -32,6 +33,22 @@ class SeriesController extends Controller
             return response()->json([], 404);
         }
     }
+
+    public function getComics($id)
+    {
+        $series = DB::table('series')
+            ->where('id', $id)
+            ->first();
+        if ($series) {
+            $comics = DB::table('comics')
+                ->where("comics.series_id", $id)
+                ->get();
+            return response()->json($comics);
+        } else {
+            return response()->json([], 404);
+        }
+    }
+
     public function post(Request $request)
     {
         if (isset($request->name)) {
@@ -42,6 +59,7 @@ class SeriesController extends Controller
             return response()->json([], 400);
         }
     }
+
     public function put(Request $request, $id)
     {
         if (isset($request->name)) {
@@ -53,6 +71,7 @@ class SeriesController extends Controller
             return response()->json([], 404);
         }
     }
+
     public function delete($id)
     {
         $series = DB::table("series")

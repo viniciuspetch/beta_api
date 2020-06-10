@@ -74,6 +74,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::get('/series', 'SeriesController@getAll');
 Route::get('/series/{id}', 'SeriesController@getSingle');
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/series/{id}/comics', 'SeriesController@getComics');
     Route::post('/series', 'SeriesController@post');
     Route::put('/series/{id}', 'SeriesController@put');
     Route::delete('/series/{id}', 'SeriesController@delete');

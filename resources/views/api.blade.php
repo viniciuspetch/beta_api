@@ -176,6 +176,12 @@
             <td>Returns the chosen series</td>
         </tr>
         <tr>
+            <td>/api/series/{id}/comics</td>
+            <td>GET</td>
+            <td><strong>Yes</strong></td>
+            <td>Returns the comics of the chosen series</td>
+        </tr>
+        <tr>
             <td>/api/series</td>
             <td>POST</td>
             <td><strong>Yes</strong></td>
