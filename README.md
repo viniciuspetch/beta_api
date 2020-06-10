@@ -4,6 +4,7 @@
 -   `php artisan migrate --seed` to apply migrations and seeds
 -   `php artisan passport:install` to add Passport keys
 -   `php artisan serve` to start the server
+- Add on client header: `Content-Type: application/json` and `X-Requested-With: XMLHttpRequest`
 -   Access the endpoints below
 
 ## API Endpoints
